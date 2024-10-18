@@ -1,0 +1,46 @@
+%Veterinary Animal Health Tracker
+
+%Ask for animals name/number
+animal_name = input('Enter the animal''s name: ', 's'); %s for string input
+
+n = input('How many weight entries do you want to input? ');
+
+%initialize the empy array to store the weights and data
+weights = zeros(1, n); %pre - allocate for weights
+dates = strings(1, n); %pre - allocate for dates
+
+%Collect weights and dates 
+for i = 1:n 
+    weights(i) = input(['Enter weight on day ', num2str(i), ' (in kg): ']);
+    dates(i) = input(['Enter date for entry ', num2str(i), '(e.g., 2024-10-17): '], 's');
+end
+
+%calculate average weight 
+average_weight = mean(weights);
+
+%Compare latest weight to average 
+latest_weight = weights(end);
+weight_difference = latest_weight - average_weight;
+
+%Display the weight trend and analysis
+fprintf('\n%s''s Weight Analysis: \n', animal_name);
+fprintf('Average weight: %.2f kg\n', average_weight);
+fprintf('Latest weight: %.2f kg\n', latest_weight);
+
+if abs(weight_difference) > 2 %threshold for significant change 
+    fprintf('Warning: Significant weight change detected. (Difference: %.2f kg)\n', weight_difference);
+else 
+    fprintf('No sigificant weight change detected.\n');
+end
+
+%plot the weight trend
+figure;
+plot(1:n, weights, '-o');
+title([animal_name, '''s Weight Trend']);
+xlabel('Measurement number');
+ylabel('Weight (kg)');
+xticks(1:n);
+xticklabels(dates); %label x-axis dates
+
+grid on;
+
